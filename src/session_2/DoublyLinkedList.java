@@ -1,5 +1,7 @@
 package session_2;
 
+import java.util.Arrays;
+
 /**
  * Created by: HungCQ
  * Date: 21-May-20
@@ -111,14 +113,14 @@ public class DoublyLinkedList {
     }
 
     public boolean insert(int value, int index) {
+        if (index == 0) {
+            pushFront(value);
+            return true;
+        }
         Node newNode = new Node();
         newNode.value = value;
         int i = 0;
         Node node = head;
-        if (head == null && index == 0) {
-            head = newNode;
-            return true;
-        }
         while (node != null) {
             if (i == index) {
                 Node tmp = node.prev;
@@ -133,12 +135,22 @@ public class DoublyLinkedList {
             i++;
             node = node.next;
         }
+        if (i == index) {
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
+            return true;
+        }
         return false;
     }
 
-    public int removeAt(int index) {
+    public void removeAt(int index) {
         if (head == null) {
-            return -1;
+            return;
+        }
+        if (index == 0) {
+            popFront();
+            return;
         }
         Node node = head;
         int i = 0;
@@ -152,12 +164,17 @@ public class DoublyLinkedList {
                 if (prev != null) {
                     prev.next = next;
                 }
-                return node.value;
+                if (node == tail) {
+                    tail = tail.prev;
+                    if (tail != null) {
+                        tail.next = null;
+                    }
+                }
+                break;
             }
             node = node.next;
             i++;
         }
-        return -1;
     }
 
     public void print() {

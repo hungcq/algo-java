@@ -35,9 +35,9 @@ public class Test {
         System.out.println(linkedList.valueAt(3));
         System.out.println(linkedList.insert(6, 3));
         linkedList.print();
-        System.out.println(linkedList.removeAt(3));
-        System.out.println(linkedList.removeAt(-1));
-        System.out.println(linkedList.removeAt(10));
+        linkedList.removeAt(3);
+        linkedList.removeAt(-1);
+        linkedList.removeAt(10);
         linkedList.print();
     }
 
