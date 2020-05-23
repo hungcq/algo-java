@@ -10,8 +10,12 @@ public class Test {
     private static final Gson gson = new Gson();
 
     public static void main(String[] args) {
-        testLinkedList();
-        testArray();
+//        testLinkedList();
+//        testArray();
+
+        System.out.println(-1 % 10);
+        int a = 3 & ~(1 << 2);
+        System.out.println(a);
     }
 
     static void testLinkedList() {
