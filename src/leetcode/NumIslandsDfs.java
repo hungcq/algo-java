@@ -1,70 +1,86 @@
 package leetcode;
 
-class NumIslandsDfs {
-    // No of rows and columns
-    static int ROW = 0, COL = 0;
-
-    // A function to check if a given cell (row, col) can
-    // be included in DFS
-    boolean isSafe(int M[][], int row, int col,
-                   boolean visited[][]) {
-        // row number is in range, column number is in range
-        // and value is 1 and not yet visited
-        return (row >= 0) && (row < ROW) && (col >= 0) && (col < COL) && (M[row][col] == 1 && !visited[row][col]);
+public class NumIslandsDfs {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        char[][] grid1 = new char[][]
+                {
+                        {
+                                '1', '1', '1', '1', '0'
+                        },
+                        {
+                                '1', '1', '0', '1', '0'
+                        },
+                        {
+                                '1', '1', '0', '0', '0'
+                        },
+                        {
+                                '0', '0', '0', '0', '0'
+                        },
+                };
+        char[][] grid2 = new char[][]
+                {
+                        {
+                                '1', '1', '0', '0', '0'
+                        },
+                        {
+                                '1', '1', '0', '0', '0'
+                        },
+                        {
+                                '0', '0', '1', '0', '0'
+                        },
+                        {
+                                '0', '0', '0', '1', '1'
+                        },
+                };
+        System.out.println(solution.numIslands(grid1));
+        System.out.println(solution.numIslands(grid2));
     }
 
-    // A utility function to do DFS for a 2D boolean matrix.
-    // It only considers the 8 neighbors as adjacent vertices
-    void DFS(int M[][], int row, int col, boolean visited[][]) {
-        // These arrays are used to get row and column numbers
-        // of 8 neighbors of a given cell
-        int rowNbr[] = new int[]{-1, -1, -1, 0, 0, 1, 1, 1};
-        int colNbr[] = new int[]{-1, 0, 1, -1, 1, -1, 0, 1};
+    static class Solution {
 
-        // Mark this cell as visited
-        visited[row][col] = true;
-
-        // Recur for all connected neighbours
-        for (int k = 0; k < 8; ++k)
-            if (isSafe(M, row + rowNbr[k], col + colNbr[k], visited))
-                DFS(M, row + rowNbr[k], col + colNbr[k], visited);
-    }
-
-    // The main function that returns count of islands in a given
-    // boolean 2D matrix
-    int countIslands(int M[][]) {
-        // Make a bool array to mark visited cells.
-        // Initially all cells are unvisited
-        ROW = M.length;
-        COL = M.length > 0 ? M[0].length : 0;
-        boolean visited[][] = new boolean[ROW][COL];
-
-        // Initialize count as 0 and travese through the all cells
-        // of given matrix
-        int count = 0;
-        for (int i = 0; i < ROW; ++i)
-            for (int j = 0; j < COL; ++j)
-                if (M[i][j] == 1 && !visited[i][j]) // If a cell with
-                { // value 1 is not
-                    // visited yet, then new island found, Visit all
-                    // cells in this island and increment island count
-                    DFS(M, i, j, visited);
-                    ++count;
+        public int numIslands(char[][] grid) {
+            if (grid.length == 0) {
+                return 0;
+            }
+            boolean[][] visited = new boolean[grid.length][grid[0].length];
+            int count = 0;
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[0].length; j++) {
+                    if (grid[i][j] == '1' && !visited[i][j]) {
+                        DFS(i, j, grid, visited);
+                        count++;
+                    }
                 }
+            }
+            return count;
+        }
 
-        return count;
-    }
+        private void DFS(int i, int j, char[][] grid, boolean[][] visited) {
+            if (visited[i][j]) {
+                return;
+            }
+            visited[i][j] = true;
+            int[][] directions = new int[][]{
+                    {-1, 0},
+                    {1, 0},
+                    {0, -1},
+                    {0, 1}
+            };
+            for (int[] direction : directions) {
+                int a = i + direction[0];
+                int b = j + direction[1];
+                if(valid(a, b, grid, visited)) {
+                    DFS(a, b, grid, visited);
+                }
+            }
+        }
 
-    // Driver method
-    public static void main(String[] args) throws java.lang.Exception {
-        int M[][] = new int[][]{
-                {1, 1, 0, 0, 0},
-                {0, 1, 0, 0, 1},
-                {1, 0, 0, 1, 1},
-                {0, 0, 0, 0, 0},
-                {1, 0, 1, 0, 1}
-        };
-        NumIslandsDfs I = new NumIslandsDfs();
-        System.out.println("Number of islands is: " + I.countIslands(M));
+        private boolean valid(int a, int b, char[][] grid, boolean[][] visited) {
+            return a >= 0 && a < grid.length
+                    && b >= 0 && b < grid[0].length
+                    && grid[a][b] == '1' && !visited[a][b];
+        }
     }
-} // Contributed by Aakash Hasija
+}
+
