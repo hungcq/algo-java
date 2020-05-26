@@ -5,11 +5,16 @@ import java.util.*;
 public class PerfectSquares {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.numSquares(4076, 0));
+        long ts = System.currentTimeMillis();
+        System.out.println(solution.numSquares( 7217, 0));
+        System.out.println(System.currentTimeMillis() - ts);
+        System.out.println(solution.numSquares(7217));
+        System.out.println(System.currentTimeMillis() - ts);
     }
 
     static class Solution {
         int minStep = Integer.MAX_VALUE;
+
         public int numSquares(int n, int currentStep) {
             int min = Integer.MAX_VALUE;
             for (int i = (int) Math.sqrt(n); i >= 0; i--) {
@@ -25,27 +30,34 @@ public class PerfectSquares {
             }
             return min;
         }
-//        public int numSquares(int n) {
-//            List<Node> nodeList = new ArrayList<>();
-//            for (int i = 1; i <= (int) Math.sqrt(n); i++) {
-//                Node node = new Node();
-//                node.value = i * i;
-//                nodeList.add(node);
-//            }
-//            for (Node node : nodeList) {
-//                for (int i = 0; i < nodeList.size(); i++) {
-//                    node.adjList.add(i);
-//                }
-//            }
-//            int minStep = Integer.MAX_VALUE;
-//            for (Node node : nodeList) {
-//                int step = BFS(node, nodeList, n);
-//                if (step < minStep) {
-//                    minStep = step;
-//                }
-//            }
-//            return minStep;
-//        }
+
+        public int numSquares(int n) {
+            Set<Integer> visited = new HashSet<>();
+            Queue<Integer> queue = new LinkedList<>();
+            queue.add(n);
+            List<Integer> squares = new ArrayList<>();
+            for (int i = 1; i * i <= n; i++) {
+                squares.add(i * i);
+            }
+            int step = 0;
+            while (!queue.isEmpty()) {
+                int size = queue.size();
+                for (int i = 0; i < size; i++) {
+                    int value = queue.poll();
+                    visited.add(value);
+                    if (value == 0) {
+                        return step;
+                    }
+                    for (int square : squares) {
+                        if (!visited.contains(value - square) && value - square >= 0) {
+                            queue.offer(value - square);
+                        }
+                    }
+                }
+                step++;
+            }
+            return -1;
+        }
 
 //        /**
 //         * Return the length of the shortest path between root and target node.
@@ -81,5 +93,5 @@ public class PerfectSquares {
 //            int value;
 //            List<Integer> adjList = new ArrayList<>();
 //        }
+        }
     }
-}

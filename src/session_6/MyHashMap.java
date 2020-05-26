@@ -5,13 +5,37 @@ import java.util.LinkedList;
 
 class MyHashMap {
 
-    private static final int TABLE_SIZE = 10000;
+    public static void main(String[] args) {
+        MyHashMap map = new MyHashMap();
+        map.put(1, 1);
+        map.put(2, 2);
+        map.put(3, 3);
+        map.put(4, 4);
+        map.put(9, 9);
+        System.out.println(map.getCapacity());
+        map.put(6, 6);
+        System.out.println(map.getCapacity());
+        map.put(7, 7);
+        map.put(8, 8);
+        map.put(17, 17);
+    }
+
+    private static final int INCREASE_FACTOR = 2;
+    private static final double THRESHOLD = 0.75;
+
+    public static final int INITIAL_CAPACITY = 8;
 
     public LinkedList<Entry>[] table;
+    public int size;
 
     /** Initialize your data structure here. */
     public MyHashMap() {
-        table = new LinkedList[TABLE_SIZE];
+        table = new LinkedList[INITIAL_CAPACITY];
+        size = 0;
+    }
+
+    public int getCapacity() {
+        return table.length;
     }
 
     /** value will always be non-negative. */
@@ -30,6 +54,30 @@ class MyHashMap {
         entry.key = key;
         entry.value = value;
         table[hash].push(entry);
+
+        size++;
+
+        checkAndIncreaseSize();
+    }
+
+    private void checkAndIncreaseSize() {
+        if (size < THRESHOLD * table.length) {
+            return;
+        }
+        LinkedList<Entry>[] newTable = new LinkedList[table.length * 2];
+        for (LinkedList<Entry> linkedList : table) {
+            if (linkedList == null) {
+                continue;
+            }
+            for (Entry entry : linkedList) {
+                int hash = hash(entry.key, newTable.length);
+                if (newTable[hash] == null) {
+                    newTable[hash] = new LinkedList<>();
+                }
+                newTable[hash].add(entry);
+            }
+        }
+        table = newTable;
     }
 
     /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
@@ -62,7 +110,11 @@ class MyHashMap {
     }
 
     private int hash(int key) {
-        return key % TABLE_SIZE;
+        return key % table.length;
+    }
+
+    private int hash(int key, int length) {
+        return key % length;
     }
 
 
