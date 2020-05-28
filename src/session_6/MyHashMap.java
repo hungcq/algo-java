@@ -64,7 +64,7 @@ class MyHashMap {
         if (size < THRESHOLD * table.length) {
             return;
         }
-        LinkedList<Entry>[] newTable = new LinkedList[table.length * 2];
+        LinkedList<Entry>[] newTable = new LinkedList[table.length * INCREASE_FACTOR];
         for (LinkedList<Entry> linkedList : table) {
             if (linkedList == null) {
                 continue;
