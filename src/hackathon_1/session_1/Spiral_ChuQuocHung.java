@@ -40,10 +40,18 @@ public class Spiral_ChuQuocHung {
                 m++;
             } else {
                 switch (directionIndex) {
-                    case 0 -> top += 1;
-                    case 1 -> right -= 1;
-                    case 2 -> bottom -= 1;
-                    case 3 -> left += 1;
+                    case 0:
+                        top += 1;
+                        break;
+                    case 1:
+                        right -= 1;
+                        break;
+                    case 2:
+                        bottom -= 1;
+                        break;
+                    case 3:
+                        left += 1;
+                        break;
                 }
                 directionIndex = getNextDirection(directionIndex);
                 direction = directions[directionIndex];
