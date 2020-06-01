@@ -1,4 +1,4 @@
-package hackathon;
+package hackathon_1.session_2;
 
 import com.google.gson.Gson;
 
