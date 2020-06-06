@@ -6,7 +6,7 @@ public class PerfectSquares {
     public static void main(String[] args) {
         Solution solution = new Solution();
         long ts = System.currentTimeMillis();
-        System.out.println(solution.numSquares( 7217, 0));
+        System.out.println(solution.numSquares(7217, 0));
         System.out.println(System.currentTimeMillis() - ts);
         System.out.println(solution.numSquares(7217));
         System.out.println(System.currentTimeMillis() - ts);
@@ -93,5 +93,5 @@ public class PerfectSquares {
 //            int value;
 //            List<Integer> adjList = new ArrayList<>();
 //        }
-        }
     }
+}

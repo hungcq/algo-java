@@ -37,7 +37,7 @@ public class Matrix01 {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 if (matrix[i][j] == max) {
-                    if(check(i, j, matrix, directions, max)) {
+                    if (check(i, j, matrix, directions, max)) {
                         matrix[i][j] = max + 1;
                         updated = true;
                     }

@@ -1,7 +1,5 @@
 package session_2;
 
-import java.util.Arrays;
-
 /**
  * Created by: HungCQ
  * Date: 21-May-20

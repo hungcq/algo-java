@@ -5,11 +5,11 @@ import java.util.*;
 public class OpenLock {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        String[] deadends1 = new String[]{"0201","0101","0102","1212","2002"};
+        String[] deadends1 = new String[]{"0201", "0101", "0102", "1212", "2002"};
         String target1 = "0202";
         String[] deadends2 = new String[]{"8888"};
         String target2 = "0009";
-        String[] deadends3 = new String[]{"8887","8889","8878","8898","8788","8988","7888","9888"};
+        String[] deadends3 = new String[]{"8887", "8889", "8878", "8898", "8788", "8988", "7888", "9888"};
         String target3 = "8888";
         String[] deadends4 = new String[]{"0000"};
         String target4 = "8888";
@@ -47,7 +47,7 @@ public class OpenLock {
                     if (digit == 9) {
                         node.adjList.add(i - 9 * (int) Math.pow(10, j));
                         node.adjList.add(i - (int) Math.pow(10, j));
-                    } else                     if (digit == 0) {
+                    } else if (digit == 0) {
                         node.adjList.add(i + (int) Math.pow(10, j));
                         node.adjList.add(i + 9 * (int) Math.pow(10, j));
                     } else {

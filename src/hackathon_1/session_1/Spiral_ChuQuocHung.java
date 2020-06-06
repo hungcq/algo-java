@@ -8,19 +8,20 @@ public class Spiral_ChuQuocHung {
 
     public static void main(String[] args) {
         Spiral_ChuQuocHung main = new Spiral_ChuQuocHung();
-        System.out.println(gson.toJson(main.spiral(new int[][] {
+        System.out.println(gson.toJson(main.spiral(new int[][]{
                 {1, 2, 3, 4},
                 {5, 6, 7, 8},
                 {9, 10, 11, 12},
                 {13, 14, 15, 16},
         })));
     }
+
     public int[] spiral(int[][] matrix) {
         int top = 0;
         int bottom = matrix.length - 1;
         int left = 0;
         int right = matrix[0].length - 1;
-        int[][] directions = new int[][] {
+        int[][] directions = new int[][]{
                 {0, 1},
                 {1, 0},
                 {0, -1},

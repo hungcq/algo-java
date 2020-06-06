@@ -10,23 +10,23 @@ public class TwoGroup_ChuQuocHung {
     public static void main(String[] args) {
         TwoGroup_ChuQuocHung twoGroup = new TwoGroup_ChuQuocHung();
         int[][] dislike1 = new int[][]{
-                {1,2},
-                {1,3},
-                {2,4}
+                {1, 2},
+                {1, 3},
+                {2, 4}
         };
         System.out.println(twoGroup.twoGroup(4, dislike1));
         int[][] dislike2 = new int[][]{
-                {1,2},
-                {1,3},
-                {2,3}
+                {1, 2},
+                {1, 3},
+                {2, 3}
         };
         System.out.println(twoGroup.twoGroup(4, dislike2));
         int[][] dislike3 = new int[][]{
-                {1,2},
-                {2,3},
-                {3,4},
-                {4,5},
-                {1,5},
+                {1, 2},
+                {2, 3},
+                {3, 4},
+                {4, 5},
+                {1, 5},
         };
         System.out.println(twoGroup.twoGroup(5, dislike3));
     }

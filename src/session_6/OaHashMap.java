@@ -137,6 +137,7 @@ public class OaHashMap {
     private class Node {
         int key;
         Object value;
+
         Node(int key, Object value) {
             this.key = key;
             this.value = value;

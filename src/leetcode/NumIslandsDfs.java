@@ -70,7 +70,7 @@ public class NumIslandsDfs {
             for (int[] direction : directions) {
                 int a = i + direction[0];
                 int b = j + direction[1];
-                if(valid(a, b, grid, visited)) {
+                if (valid(a, b, grid, visited)) {
                     DFS(a, b, grid, visited);
                 }
             }

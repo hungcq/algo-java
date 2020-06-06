@@ -1,9 +1,7 @@
 package session_6;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 class MyHashSet {
 
@@ -11,7 +9,9 @@ class MyHashSet {
 
     public LinkedList<Integer>[] table;
 
-    /** Initialize your data structure here. */
+    /**
+     * Initialize your data structure here.
+     */
     public MyHashSet() {
         table = new LinkedList[TABLE_SIZE];
     }
@@ -43,7 +43,9 @@ class MyHashSet {
         }
     }
 
-    /** Returns true if this set contains the specified element */
+    /**
+     * Returns true if this set contains the specified element
+     */
     public boolean contains(int key) {
         int hash = hash(key);
         if (table[hash] == null) {

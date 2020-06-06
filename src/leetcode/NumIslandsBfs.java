@@ -56,7 +56,7 @@ public class NumIslandsBfs {
                     a = i + 1;
                     b = j;
                     checkAndAddToAdjList(grid, node, a, b);
-                    a = i ;
+                    a = i;
                     b = j - 1;
                     checkAndAddToAdjList(grid, node, a, b);
                     a = i;

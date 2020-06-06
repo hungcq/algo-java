@@ -28,7 +28,9 @@ class MyHashMap {
     public LinkedList<Entry>[] table;
     public int size;
 
-    /** Initialize your data structure here. */
+    /**
+     * Initialize your data structure here.
+     */
     public MyHashMap() {
         table = new LinkedList[INITIAL_CAPACITY];
         size = 0;
@@ -38,7 +40,9 @@ class MyHashMap {
         return table.length;
     }
 
-    /** value will always be non-negative. */
+    /**
+     * value will always be non-negative.
+     */
     public void put(int key, int value) {
         int hash = hash(key);
         if (table[hash] == null) {
@@ -80,7 +84,9 @@ class MyHashMap {
         table = newTable;
     }
 
-    /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+    /**
+     * Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key
+     */
     public int get(int key) {
         int hash = hash(key);
         if (table[hash] == null) {
@@ -94,7 +100,9 @@ class MyHashMap {
         return -1;
     }
 
-    /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+    /**
+     * Removes the mapping of the specified value key if this map contains a mapping for the key
+     */
     public void remove(int key) {
         int hash = hash(key);
         if (table[hash] == null) {
