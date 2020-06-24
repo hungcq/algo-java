@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Test {
     public static void main(String[] args) {
-
+        System.out.println((-3) % 10);
     }
 
     class Solution {
@@ -30,6 +30,28 @@ public class Test {
                 result[i] = list.get(i);
             }
             return result;
+        }
+
+        public int maxEvents(int[][] events) {
+            Arrays.sort(events, new Comparator<int[]>() {
+                @Override
+                public int compare(int[] o1, int[] o2) {
+//                    if (o1[1] != o2[1]) {
+                        return o1[1] - o2[1];
+//                    }
+//                    return o1[0] - o2[0];
+                }
+            });
+            int time = 0;
+            int count = 0;
+            for (int i = 0; i < events.length; i++) {
+                if (events[i][0] < time) {
+                    continue;
+                }
+                time = events[i][1];
+                count++;
+            }
+            return count;
         }
     }
 }

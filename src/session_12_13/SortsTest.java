@@ -2,13 +2,14 @@ package session_12_13;
 
 import org.junit.Assert;
 import org.junit.Test;
+import session_14.RadixSort;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class SortsTest {
 
-    private static final int LENGTH = 1000;
+    private static final int LENGTH = 100000;
 
     @Test
     public void bubbleSort() {
@@ -98,5 +99,20 @@ public class SortsTest {
         Sorts.quickSort(array2);
         Assert.assertArrayEquals(array1, array2);
         Sorts.quickSort(new int[0]);
+    }
+
+    @Test
+    public void radixSort() {
+        int[] array1 = new int[LENGTH];
+        int[] array2 = new int[LENGTH];
+        for (int i = 0; i < LENGTH; i++) {
+            int random = Math.abs(ThreadLocalRandom.current().nextInt());
+            array1[i] = random;
+            array2[i] = random;
+        }
+        Arrays.sort(array1);
+        RadixSort.sort(array2);
+        Assert.assertArrayEquals(array1, array2);
+        RadixSort.sort(new int[0]);
     }
 }
