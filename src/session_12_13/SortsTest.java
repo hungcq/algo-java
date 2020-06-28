@@ -106,7 +106,7 @@ public class SortsTest {
         int[] array1 = new int[LENGTH];
         int[] array2 = new int[LENGTH];
         for (int i = 0; i < LENGTH; i++) {
-            int random = Math.abs(ThreadLocalRandom.current().nextInt());
+            int random = ThreadLocalRandom.current().nextInt();
             array1[i] = random;
             array2[i] = random;
         }

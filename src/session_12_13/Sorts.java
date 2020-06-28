@@ -3,10 +3,15 @@ package session_12_13;
 public class Sorts {
     public static void bubbleSort(int[] array) {
         for (int i = 0; i < array.length - 1; i++) {
+            boolean modified = false;
             for (int j = 0; j < array.length - i - 1; j++) {
                 if (array[j] > array[j + 1]) {
                     swap(array, j, j + 1);
+                    modified = true;
                 }
+            }
+            if (!modified) {
+                return;
             }
         }
     }
