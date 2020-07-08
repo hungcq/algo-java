@@ -1,25 +1,18 @@
 package session_17;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MinimumPath {
 
     public static int dijkstra(Node start, Node end) {
-        Heap queue = new Heap(new Comparator<NodeDis>() {
-            @Override
-            public int compare(NodeDis o1, NodeDis o2) {
-                return o2.dis - o1.dis;
-            }
-        });
+        Heap<NodeDis> queue = new Heap<>((o1, o2) -> o2.dis - o1.dis);
         NodeDis startNodeDis = new NodeDis(start);
         startNodeDis.dis = 0;
         queue.add(startNodeDis);
         Map<Node, NodeDis> disMap = new HashMap<>();
         disMap.put(start, startNodeDis);
         while (!queue.isEmpty()) {
-            NodeDis nodeDis = (NodeDis) queue.extract();
+            NodeDis nodeDis = queue.extract();
             if (nodeDis.node == end) {
                 return nodeDis.dis;
             }
@@ -35,7 +28,7 @@ public class MinimumPath {
                 } else {
                     nodeDis1 = disMap.get(neighbor);
                     nodeDis1.relax(weight + nodeDis.dis);
-                    queue.siftDown(nodeDis1);
+                    queue.siftUp(nodeDis1);
                 }
             }
         }
@@ -49,8 +42,52 @@ public class MinimumPath {
             this.node = node;
             dis = Integer.MAX_VALUE;
         }
-        void relax(int newDis) {
+        boolean relax(int newDis) {
+            int tmp = dis;
             dis = Math.min(dis, newDis);
+            return tmp != dis;
         }
+    }
+
+    public static int bellmanFord(Node start, Node end) {
+        Queue<Node> queue = new LinkedList<>();
+        Set<Node> visited = new HashSet<>();
+        Map<Node.Edge, Node> edges = new HashMap<>();
+        queue.offer(start);
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            visited.add(node);
+            for (Node.Edge edge : node.adjList) {
+                edges.put(edge, node);
+                if (!visited.contains(edge.neighbor)) {
+                    queue.offer(edge.neighbor);
+                }
+            }
+        }
+        Map<Node, NodeDis> disMap = new HashMap<>();
+        NodeDis startNodeDis = new NodeDis(start);
+        startNodeDis.dis = 0;
+        disMap.put(start, startNodeDis);
+        for (int i = 0; i < visited.size() - 1; i++) {
+            for (Node.Edge edge : edges.keySet()) {
+                Node source = edges.get(edge);
+                if (disMap.containsKey(source)) {
+                    if (disMap.containsKey(edge.neighbor)) {
+                        disMap.get(edge.neighbor).relax(disMap.get(source).dis + edge.weight);
+                    } else {
+                        NodeDis nodeDis = new NodeDis(edge.neighbor);
+                        nodeDis.dis = disMap.get(source).dis + edge.weight;
+                        disMap.put(edge.neighbor, nodeDis);
+                    }
+                }
+            }
+        }
+        for (Node.Edge edge : edges.keySet()) {
+            Node source = edges.get(edge);
+            if (disMap.get(edge.neighbor).relax(disMap.get(source).dis + edge.weight)) {
+                return -1;
+            }
+        }
+        return disMap.get(end).dis;
     }
 }
