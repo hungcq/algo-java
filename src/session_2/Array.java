@@ -8,8 +8,12 @@ public class Array {
     private int size;
     private int[] arr;
 
+    private static final int INITIAL_CAPACITY = 8;
+    private static final int CHANGE_SIZE_FACTOR = 2;
+    private static final double REDUCE_SIZE_THRESHOLD = 0.25;
+
     public Array() {
-        arr = new int[0];
+        arr = new int[INITIAL_CAPACITY];
     }
 
     public int size() {
@@ -25,7 +29,7 @@ public class Array {
     }
 
     public int itemAt(int index) {
-        if (index > size - 1) {
+        if (index > size - 1 || index < 0) {
             return -1;
         }
         return arr[index];
@@ -38,6 +42,9 @@ public class Array {
     }
 
     public boolean insert(int item, int index) {
+        if (index < 0) {
+            return false;
+        }
         if (index == size) {
             append(item);
             return true;
@@ -55,12 +62,8 @@ public class Array {
     }
 
     private void checkAndIncreaseSize() {
-        if (arr.length == 0) {
-            arr = new int[1];
-            return;
-        }
         if (size > arr.length) {
-            int[] newArr = new int[arr.length * 2];
+            int[] newArr = new int[arr.length * CHANGE_SIZE_FACTOR];
             for (int i = 0; i < arr.length; i++) {
                 newArr[i] = arr[i];
             }
@@ -77,7 +80,7 @@ public class Array {
     }
 
     public int removeAt(int index) {
-        if (index >= size - 1) {
+        if (index >= size - 1 || index < 0) {
             return -1;
         }
         int value = arr[index];
@@ -91,8 +94,8 @@ public class Array {
     }
 
     private void checkAndReduceSize() {
-        if (size <= arr.length / 4) {
-            int[] newArr = new int[arr.length / 2];
+        if (size <= arr.length * REDUCE_SIZE_THRESHOLD) {
+            int[] newArr = new int[arr.length / CHANGE_SIZE_FACTOR];
             for (int i = 0; i < size; i++) {
                 newArr[i] = arr[i];
             }

@@ -1,15 +1,11 @@
 package session_8;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 public class AvlTree {
-
-    private static final Gson gson = new Gson();
 
     public static void main(String[] args) {
         AvlTree tree = new AvlTree();
@@ -19,9 +15,9 @@ public class AvlTree {
         for (int i = 1; i <= 9999000; i++) {
             tree.delete(i);
         }
-        System.out.println(tree.isBalance(tree.root));
+        System.out.println(tree.isBalance(tree.root).isBalance);
         tree.delete(1000000000);
-        System.out.println(tree.isBalance(tree.root));
+        System.out.println(tree.isBalance(tree.root).isBalance);
         System.out.println(tree.getMaxHeight(tree.root));
         List<List<Integer>> result = levelOrder(tree.root);
         int totalNode = 0;
@@ -29,7 +25,6 @@ public class AvlTree {
             totalNode += list.size();
         }
         System.out.println(totalNode);
-////        System.out.println(gson.toJson(result));
         System.out.println(result.size());
     }
 
@@ -69,19 +64,7 @@ public class AvlTree {
         } else {
             return root;
         }
-        root.height = Math.max(getHeight(root.left), getHeight(root.right)) + 1;
-        if (getBalanceFactor(root) > 1) {
-            if (getBalanceFactor(root.left) < 0) {
-                root.left = rotateLeft(root.left);
-            }
-            root = rotateRight(root);
-        } else if (getBalanceFactor(root) < -1) {
-            if (getBalanceFactor(root.right) > 0) {
-                root.right = rotateRight(root.right);
-            }
-            root = rotateLeft(root);
-        }
-        return root;
+        return balanceNode(root);
     }
 
     public Node delete(Node root, int value) {
@@ -110,7 +93,11 @@ public class AvlTree {
                 root = root.left;
             }
         }
-        root.height = Math.max(getHeight(root.left), getHeight(root.right)) + 1;
+        return balanceNode(root);
+    }
+
+    private Node balanceNode(Node root) {
+        root.height = getParentHeight(root);
         if (getBalanceFactor(root) > 1) {
             if (getBalanceFactor(root.left) < 0) {
                 root.left = rotateLeft(root.left);
@@ -125,13 +112,25 @@ public class AvlTree {
         return root;
     }
 
-    public boolean isBalance(Node root) {
-        if (root == null) {
-            return true;
+    class Res {
+        int height;
+        boolean isBalance;
+        Res (int height, boolean isBalance) {
+            this.height = height;
+            this.isBalance = isBalance;
         }
-        int heightLeft = getMaxHeight(root.left);
-        int heightRight = getMaxHeight(root.right);
-        return Math.abs(heightLeft - heightRight) <= 1 && isBalance(root.left) && isBalance(root.right);
+    }
+
+    public Res isBalance(Node root) {
+        if (root == null) {
+            return new Res(0, true);
+        }
+        Res leftRes = isBalance(root.left);
+        Res rightRes = isBalance(root.right);
+        int height = 1 + Math.max(leftRes.height, rightRes.height);
+        boolean isBalance = Math.abs(leftRes.height - rightRes.height) <= 1 && leftRes.isBalance && rightRes.isBalance;
+        Res rootRes = new Res(height, isBalance);
+        return rootRes;
     }
 
     private Node rotateRight(Node node) {
@@ -139,8 +138,8 @@ public class AvlTree {
         Node tmp = left.right;
         left.right = node;
         node.left = tmp;
-        node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
-        left.height = Math.max(getHeight(left.left), getHeight(left.right)) + 1;
+        node.height = getParentHeight(node);
+        left.height = getParentHeight(left);
         return left;
     }
 
@@ -149,9 +148,13 @@ public class AvlTree {
         Node tmp = right.left;
         right.left = node;
         node.right = tmp;
-        node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
-        right.height = Math.max(getHeight(right.left), getHeight(right.right)) + 1;
+        node.height = getParentHeight(node);
+        right.height = getParentHeight(right);
         return right;
+    }
+
+    private int getParentHeight(Node parent) {
+        return Math.max(getHeight(parent.left), getHeight(parent.right)) + 1;
     }
 
     private int getBalanceFactor(Node node) {
