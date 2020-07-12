@@ -11,9 +11,9 @@ public class PermutationTest {
     private static final Gson gson = new Gson();
     @Test
     public void permutation() {
-        int[] array = new int[]{1,2,3,2};
+        int[] array = new int[]{1,2,3,2,9,9,9};
         List<List<Integer>> permutation = Permutation.permute(array);
-        System.out.println(gson.toJson(permutation));
+//        System.out.println(gson.toJson(permutation));
         System.out.println(permutation.size());
     }
 }
