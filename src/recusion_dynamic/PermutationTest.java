@@ -1,11 +1,9 @@
-package recursion;
+package recusion_dynamic;
 
 import com.google.gson.Gson;
 import org.junit.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class PermutationTest {
     private static final Gson gson = new Gson();
