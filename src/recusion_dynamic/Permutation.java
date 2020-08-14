@@ -1,8 +1,6 @@
 package recusion_dynamic;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Permutation {
@@ -29,5 +27,34 @@ public class Permutation {
         int tmp = array[i];
         array[i] = array[j];
         array[j] = tmp;
+    }
+
+    // no duplicate
+    public static List<List<Integer>> permuteNoDup(int[] array) {
+        List<List<Integer>> result = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i : array) {
+            map.put(i, map.getOrDefault(i, 0) + 1);
+        }
+        backtrack(result, new ArrayList<>(), array.length, map);
+        return result;
+    }
+
+    private static void backtrack(List<List<Integer>> result, List<Integer> list, int length, Map<Integer, Integer> map) {
+        if (list.size() == length) {
+            result.add(new ArrayList<>(list));
+            return;
+        }
+        for (int i : map.keySet()) {
+            int count = map.get(i);
+            if (count == 0) {
+                continue;
+            }
+            map.put(i, count - 1);
+            list.add(i);
+            backtrack(result, list, length, map);
+            list.remove(list.size() - 1);
+            map.put(i, count);
+        }
     }
 }

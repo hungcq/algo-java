@@ -13,5 +13,6 @@ public class PermutationTest {
         List<List<Integer>> permutation = Permutation.permute(array);
 //        System.out.println(gson.toJson(permutation));
         System.out.println(permutation.size());
+        System.out.println(Permutation.permuteNoDup(array).size());
     }
 }
