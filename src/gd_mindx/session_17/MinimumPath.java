@@ -28,7 +28,7 @@ public class MinimumPath {
                 } else {
                     nodeDis1 = disMap.get(neighbor);
                     nodeDis1.relax(weight + nodeDis.dis);
-                    queue.siftUp(nodeDis1);
+                    queue.reposition(nodeDis1);
                 }
             }
         }

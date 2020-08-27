@@ -18,22 +18,6 @@ public class Heap<T> {
         siftUp(index);
     }
 
-    public void siftUp(T object) {
-        if (!positionMap.containsKey(object)) {
-            return;
-        }
-        siftUp(positionMap.get(object));
-    }
-
-    private void siftUp(int index) {
-        int parent = (index - 1) / 2;
-        while (index != parent && comparator.compare(list.get(index), list.get(parent)) > 0) {
-            swap(list, index, parent);
-            index = parent;
-            parent = (index - 1) / 2;
-        }
-    }
-
     public T extract() {
         if (list.size() == 0) {
             return null;
@@ -52,8 +36,50 @@ public class Heap<T> {
         return object;
     }
 
-    public void siftDown(T object) {
-        siftDown(positionMap.get(object));
+    public void reposition(T object) {
+        if (!positionMap.containsKey(object)) {
+            return;
+        }
+        reposition(positionMap.get(object));
+    }
+
+    public void remove(T object) {
+        if (!positionMap.containsKey(object)) {
+            return;
+        }
+        if (list.size() == 1) {
+            list.remove(0);
+            positionMap.remove(object);
+            return;
+        }
+        int position = positionMap.get(object);
+        T last = list.remove(list.size() - 1);
+        positionMap.remove(object);
+        positionMap.put(last, position);
+        list.set(position, last);
+        reposition(position);
+    }
+
+    public boolean isEmpty() {
+        return list.size() == 0;
+    }
+
+    private void reposition(int position) {
+        int parent = (position - 1) / 2;
+        if (comparator.compare(list.get(position), list.get(parent)) > 0 && position != parent) {
+            siftUp(position);
+        } else {
+            siftDown(position);
+        }
+    }
+
+    private void siftUp(int index) {
+        int parent = (index - 1) / 2;
+        while (index != parent && comparator.compare(list.get(index), list.get(parent)) > 0) {
+            swap(list, index, parent);
+            index = parent;
+            parent = (index - 1) / 2;
+        }
     }
 
     private void siftDown(int position) {
@@ -98,9 +124,5 @@ public class Heap<T> {
         list.set(index2, tmp);
         positionMap.put(list.get(index1), index1);
         positionMap.put(list.get(index2), index2);
-    }
-
-    boolean isEmpty() {
-        return list.size() == 0;
     }
 }
