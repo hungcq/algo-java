@@ -1,5 +1,7 @@
 package gd_mindx.session_17;
 
+import com.sun.istack.internal.Nullable;
+
 import java.util.*;
 
 public class Heap<T> {
@@ -16,6 +18,14 @@ public class Heap<T> {
         positionMap.put(object, list.size() - 1);
         int index = list.size() - 1;
         siftUp(index);
+    }
+
+    @Nullable
+    public T getTop() {
+        if (list.size() == 0) {
+            return null;
+        }
+        return list.get(0);
     }
 
     public T extract() {
