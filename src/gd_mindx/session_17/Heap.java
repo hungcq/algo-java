@@ -1,7 +1,5 @@
 package gd_mindx.session_17;
 
-import com.sun.istack.internal.Nullable;
-
 import java.util.*;
 
 public class Heap<T> {
@@ -20,7 +18,6 @@ public class Heap<T> {
         siftUp(index);
     }
 
-    @Nullable
     public T getTop() {
         if (list.size() == 0) {
             return null;

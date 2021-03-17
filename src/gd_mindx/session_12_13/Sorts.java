@@ -137,37 +137,19 @@ public class Sorts {
     }
 
     private static void siftDown(int[] array, int position, int end) {
-        int parent = position;
-        int child1 = parent * 2 + 1;
-        int child2 = parent * 2 + 2;
-        if (child1 > end) {
-            return;
-        }
-        if (child2 > end) {
-            child2 = child1;
-        }
-        int parentValue = array[parent];
-        int child1Value = array[child1];
-        int child2Value = array[child2];
-        while (parentValue < child1Value || parentValue < child2Value) {
-            if (child1Value > child2Value) {
-                swap(array, parent, child1);
-                parent = child1;
-            } else {
-                swap(array, parent, child2);
-                parent = child2;
+        while (true) {
+            int tmp = position;
+            if (position * 2 + 2 <= end && array[position * 2 + 2] > array[tmp]) {
+                tmp = position * 2 + 2;
             }
-            child1 = parent * 2 + 1;
-            child2 = parent * 2 + 2;
-            if (child1 > end) {
-                return;
+            if (position * 2 + 1 <= end && array[position * 2 + 1] > array[tmp]) {
+                tmp = position * 2 + 1;
             }
-            if (child2 > end) {
-                child2 = child1;
+            if (tmp == position) {
+                break;
             }
-            parentValue = array[parent];
-            child1Value = array[child1];
-            child2Value = array[child2];
+            swap(array, tmp, position);
+            position = tmp;
         }
     }
 }
