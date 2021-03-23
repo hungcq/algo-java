@@ -1,4 +1,4 @@
-package tree_graph;
+package graph;
 
 import java.util.*;
 
@@ -15,11 +15,12 @@ public class TopologicalSort {
         Map<Node, Integer> visited = new HashMap<>();
         List<Node> list = new ArrayList<>();
         for (Node node : graph.nodeList) {
-            if (!visited.containsKey(node)) {
-                if (!DFS(node, visited, list)) {
-                    System.out.println("Cannot sort. Graph contains cycle.");
-                    return new ArrayList<>();
-                }
+            if (visited.containsKey(node)) {
+                continue;
+            }
+            if (!DFS(node, visited, list)) {
+                System.out.println("Cannot sort. Graph contains cycle.");
+                return new ArrayList<>();
             }
         }
         Collections.reverse(list);
@@ -30,16 +31,17 @@ public class TopologicalSort {
         if (visited.containsKey(node) && visited.get(node) == VISITING) {
             return false;
         }
-        if (!visited.containsKey(node)) {
-            visited.put(node, VISITING);
-            for (Node neighbor : node.neighbors) {
-                if (!DFS(neighbor, visited, list)) {
-                    return false;
-                }
+        visited.put(node, VISITING);
+        for (Node neighbor : node.neighbors) {
+            if (visited.containsKey(neighbor) && visited.get(neighbor) == VISITED) {
+                continue;
             }
-            visited.put(node, VISITED);
-            list.add(node);
+            if (!DFS(neighbor, visited, list)) {
+                return false;
+            }
         }
+        visited.put(node, VISITED);
+        list.add(node);
         return true;
     }
 }

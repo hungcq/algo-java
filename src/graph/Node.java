@@ -1,4 +1,4 @@
-package tree_graph;
+package graph;
 
 import java.util.HashSet;
 import java.util.Set;
