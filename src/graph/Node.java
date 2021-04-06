@@ -1,13 +1,19 @@
 package graph;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by: HungCQ
- * Date: 10-Jul-20
- */
 public class Node {
-    public String name;
-    public Set<Node> neighbors = new HashSet<>();
+    String name;
+    List<Edge> adjList = new ArrayList<>();
+
+    public static class Edge {
+        public Node neighbor;
+        public int weight;
+
+        public Edge(Node neighbor, int weight) {
+            this.neighbor = neighbor;
+            this.weight = weight;
+        }
+    }
 }

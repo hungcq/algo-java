@@ -1,5 +1,7 @@
 package arrays_strings;
 
+import java.util.*;
+
 /**
  * Created by: HungCQ
  * Date: 16-Jun-20
@@ -13,27 +15,30 @@ public class Test {
 //        System.out.println(test.oneAway("ple", "pale"));
 //        System.out.println(test.oneAway("pasle", "paie"));
 
-        System.out.println(test.stringCompression("aabcccccaaa"));
-        System.out.println(test.stringCompression("abc"));
-        System.out.println(test.stringCompression("a"));
-        System.out.println(test.stringCompression("aaa"));
-        System.out.println(test.stringCompression(""));
-        System.out.println(test.stringCompression("aabbccc"));
-
-        int[][] matrix = new int[][]{
-                {1, 2, 3, 4, 5},
-                {6, 7, 8, 9, 10},
-                {11, 12, 13, 14, 15},
-                {16, 17, 18, 19, 20},
-                {21, 22, 23, 24, 25},
-        };
-        test.rotateImage(matrix);
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                System.out.print(matrix[i][j] + ", ");
-            }
-            System.out.print("\n");
-        }
+//        System.out.println(test.stringCompression("aabcccccaaa"));
+//        System.out.println(test.stringCompression("abc"));
+//        System.out.println(test.stringCompression("a"));
+//        System.out.println(test.stringCompression("aaa"));
+//        System.out.println(test.stringCompression(""));
+//        System.out.println(test.stringCompression("aabbccc"));
+//
+//        int[][] matrix = new int[][]{
+//                {1, 2, 3, 4, 5},
+//                {6, 7, 8, 9, 10},
+//                {11, 12, 13, 14, 15},
+//                {16, 17, 18, 19, 20},
+//                {21, 22, 23, 24, 25},
+//        };
+//        test.rotateImage(matrix);
+//        for (int i = 0; i < matrix.length; i++) {
+//            for (int j = 0; j < matrix[0].length; j++) {
+//                System.out.print(matrix[i][j] + ", ");
+//            }
+//            System.out.print("\n");
+//        }
+        System.out.println(test.minimumBalanceSubstring("wyczaACZaa"));
+        System.out.println(test.minimumBalanceSubstring("wyczACZaa"));
+        System.out.println(test.minimumBalanceSubstring("abcdefEF"));
     }
 
     boolean oneAway(String s1, String s2) {
@@ -97,5 +102,81 @@ public class Test {
                 matrix[i][j] = tmp;
             }
         }
+    }
+
+    // wrong. cant handle this case: wyczaACZaa
+    int minimumBalanceSubstring(String s) {
+        int[] lower = new int[26];
+        int[] upper = new int[26];
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= 'a' && c <= 'z') {
+                lower[c - 'a']++;
+            } else {
+                upper[c - 'A']++;
+            }
+        }
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < lower.length; i++) {
+            if (lower[i] > 0 && upper[i] == 0) {
+                set.add((char) ('a' + i));
+            }
+            if (upper[i] > 0 && lower[i] == 0) {
+                set.add((char) ('A' + i));
+            }
+        }
+        Arrays.fill(lower, 0);
+        Arrays.fill(upper, 0);
+        int j = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (set.contains(c)) {
+                Arrays.fill(lower, 0);
+                Arrays.fill(upper, 0);
+                j = i + 1;
+                continue;
+            }
+            if (c >= 'a' && c <= 'z') {
+                lower[c - 'a']++;
+            } else {
+                upper[c - 'A']++;
+            }
+            while (j < i) {
+                char cj = s.charAt(j);
+                boolean isLower = cj >= 'a' && cj <= 'z';
+                int index = isLower ? cj - 'a' : cj - 'A';
+                if (isLower && ((lower[index] >= 1 && upper[index] == 0)
+                        || (lower[index] > 1))) {
+                    lower[cj - 'a']--;
+                } else if (!isLower && ((upper[index] >= 1 && lower[index] == 0)
+                        || (upper[index] > 1))) {
+                    upper[cj - 'A']--;
+                } else {
+                    break;
+                }
+                j++;
+            }
+            if (isBalance(lower, upper)) {
+                min = Math.min(min, i - j + 1);
+            }
+        }
+        return min == Integer.MAX_VALUE ? -1 : min;
+    }
+
+    boolean isBalance(int[] lower, int[] upper) {
+        boolean exist = false;
+        for (int i = 0; i < lower.length; i++) {
+            if (lower[i] != 0 && upper[i] == 0) {
+                return false;
+            }
+            if (lower[i] == 0 && upper[i] != 0) {
+                return false;
+            }
+            if (lower[i] > 0 && upper[i] > 0) {
+                exist = true;
+            }
+        }
+        return exist;
     }
 }
