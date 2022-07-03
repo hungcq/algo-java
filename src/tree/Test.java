@@ -1,4 +1,4 @@
-package graph.topological_sort;
+package tree;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;

@@ -1,5 +1,6 @@
-package graph.topological_sort;
+package graph;
 
+import graph.TopoSort;
 import org.junit.Test;
 
 import java.util.Arrays;
