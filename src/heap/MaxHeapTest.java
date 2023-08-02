@@ -39,7 +39,7 @@ public class MaxHeapTest {
     public void buildHeapFromArray() {
         Integer[] array = new Integer[]{5, 10, 5, 4, 17, 3, 4, 50, 11, 3, 62};
         List<Integer> list = Arrays.asList(array);
-        MaxHeap maxHeap = MaxHeap.buildHeapFromList(list);
+        MaxHeap maxHeap = MaxHeap.heapify(list);
         Arrays.sort(array);
         System.out.println(maxHeap.getMax());
         int max = maxHeap.extractMax();

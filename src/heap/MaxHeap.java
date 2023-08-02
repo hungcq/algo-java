@@ -10,7 +10,7 @@ public class MaxHeap {
 
     }
 
-    public static MaxHeap buildHeapFromList(List<Integer> initialList) {
+    public static MaxHeap heapify(List<Integer> initialList) {
         MaxHeap maxHeap = new MaxHeap();
         maxHeap.list.addAll(initialList);
         int lastNonLeafNodeIndex = maxHeap.list.size() / 2 - 1;
